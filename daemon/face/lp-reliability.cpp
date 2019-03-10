@@ -301,7 +301,7 @@ LpReliability::onLpPacketLost(lp::Sequence txSeq)
     deleteUnackedFrag(txSeqIt);
 
     // Retransmit fragment
-    m_linkService->sendLpPacket(lp::Packet(newTxFrag.pkt));
+    m_linkService->sendLpPacket(lp::Packet(newTxFrag.pkt), 0);
 
     // Start RTO timer for this sequence
     newTxFrag.rtoTimer = scheduler::schedule(m_rto.computeRto(), [=] { onLpPacketLost(newTxSeq); });

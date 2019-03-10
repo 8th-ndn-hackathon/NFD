@@ -195,7 +195,7 @@ public: // upper interface
   void
   close();
 
-  /** \brief send a link-layer packet
+  /** \brief send a link-layer packet to endpointId
    *  \note This operation has no effect if \p getState() is neither UP nor DOWN
    *  \warning undefined behavior if packet size exceeds MTU limit
    */

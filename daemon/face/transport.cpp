@@ -112,7 +112,6 @@ Transport::send(Packet&& packet)
     ++this->nOutPackets;
     this->nOutBytes += packet.packet.size();
   }
-
   this->doSend(std::move(packet));
 }
 
@@ -125,7 +124,7 @@ Transport::receive(Packet&& packet)
   ++this->nInPackets;
   this->nInBytes += packet.packet.size();
 
-  m_service->receivePacket(std::move(packet));
+  m_service->receivePacket(std::move(packet), packet.remoteEndpoint);
 }
 
 bool

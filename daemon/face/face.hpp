@@ -83,29 +83,29 @@ public: // upper interface connected to forwarding
   /** \brief sends Interest on Face
    */
   void
-  sendInterest(const Interest& interest);
+  sendInterest(const Interest& interest, const EndpointId& endpointId);
 
-  /** \brief sends Data on Face
+  /** \brief sends Data on Face to peer with EndpointId
    */
   void
-  sendData(const Data& data);
+  sendData(const Data& data, const EndpointId& endpointId);
 
-  /** \brief sends Nack on Face
+  /** \brief sends Nack on Face to peer with EndpointId
    */
   void
-  sendNack(const lp::Nack& nack);
+  sendNack(const lp::Nack& nack, const EndpointId& endpointId);
 
   /** \brief signals on Interest received
    */
-  signal::Signal<LinkService, Interest>& afterReceiveInterest;
+  signal::Signal<LinkService, Interest, EndpointId>& afterReceiveInterest;
 
   /** \brief signals on Data received
    */
-  signal::Signal<LinkService, Data>& afterReceiveData;
+  signal::Signal<LinkService, Data, EndpointId>& afterReceiveData;
 
   /** \brief signals on Nack received
    */
-  signal::Signal<LinkService, lp::Nack>& afterReceiveNack;
+  signal::Signal<LinkService, lp::Nack, EndpointId>& afterReceiveNack;
 
   /** \brief signals on Interest dropped by reliability system for exceeding allowed number of retx
    */
@@ -205,21 +205,21 @@ Face::getTransport() const
 }
 
 inline void
-Face::sendInterest(const Interest& interest)
+Face::sendInterest(const Interest& interest, const EndpointId& endpointId)
 {
-  m_service->sendInterest(interest);
+  m_service->sendInterest(interest, endpointId);
 }
 
 inline void
-Face::sendData(const Data& data)
+Face::sendData(const Data& data, const EndpointId& endpointId)
 {
-  m_service->sendData(data);
+  m_service->sendData(data, endpointId);
 }
 
 inline void
-Face::sendNack(const lp::Nack& nack)
+Face::sendNack(const lp::Nack& nack, const EndpointId& endpointId)
 {
-  m_service->sendNack(nack);
+  m_service->sendNack(nack, endpointId);
 }
 
 inline FaceId

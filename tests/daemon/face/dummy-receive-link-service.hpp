@@ -41,25 +41,25 @@ class DummyReceiveLinkService : public LinkService
 {
 private:
   virtual void
-  doSendInterest(const Interest& interest) override
+  doSendInterest(const Interest& interest, const EndpointId& endpointId) override
   {
     BOOST_ASSERT(false);
   }
 
   virtual void
-  doSendData(const Data& data) override
+  doSendData(const Data& data, const EndpointId& endpointId) override
   {
     BOOST_ASSERT(false);
   }
 
   virtual void
-  doSendNack(const lp::Nack& nack) override
+  doSendNack(const lp::Nack& nack, const EndpointId& endpointId) override
   {
     BOOST_ASSERT(false);
   }
 
   virtual void
-  doReceivePacket(Transport::Packet&& packet) override
+  doReceivePacket(Transport::Packet&& packet, const EndpointId& endpointId) override
   {
     receivedPackets.push_back(packet);
   }

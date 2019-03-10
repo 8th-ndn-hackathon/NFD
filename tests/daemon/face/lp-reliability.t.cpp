@@ -61,31 +61,31 @@ public:
     }
 
     for (lp::Packet frag : frags) {
-      this->sendLpPacket(std::move(frag));
+      this->sendLpPacket(std::move(frag), 0);
     }
   }
 
 private:
   void
-  doSendInterest(const Interest&) final
+  doSendInterest(const Interest&, const EndpointId&) final
   {
     BOOST_ASSERT(false);
   }
 
   void
-  doSendData(const Data&) final
+  doSendData(const Data&, const EndpointId&) final
   {
     BOOST_ASSERT(false);
   }
 
   void
-  doSendNack(const lp::Nack&) final
+  doSendNack(const lp::Nack&, const EndpointId&) final
   {
     BOOST_ASSERT(false);
   }
 
   void
-  doReceivePacket(Transport::Packet&&) final
+  doReceivePacket(Transport::Packet&&, const EndpointId&) final
   {
     BOOST_ASSERT(false);
   }

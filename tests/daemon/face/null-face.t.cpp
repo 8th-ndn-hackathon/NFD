@@ -53,10 +53,10 @@ BOOST_AUTO_TEST_CASE(Send)
   shared_ptr<Face> face = makeNullFace();
 
   shared_ptr<Interest> interest = makeInterest("/A");
-  BOOST_CHECK_NO_THROW(face->sendInterest(*interest));
+  BOOST_CHECK_NO_THROW(face->sendInterest(*interest, 0));
 
   shared_ptr<Data> data = makeData("/B");
-  BOOST_CHECK_NO_THROW(face->sendData(*data));
+  BOOST_CHECK_NO_THROW(face->sendData(*data, 0));
 
   BOOST_CHECK_NO_THROW(face->close());
 }

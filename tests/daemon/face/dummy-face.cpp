@@ -34,49 +34,49 @@ class DummyFace::LinkService : public face::LinkService
 {
 public:
   void
-  receiveInterest(const Interest& interest)
+  receiveInterest(const Interest& interest, const EndpointId& endpointId)
   {
-    this->face::LinkService::receiveInterest(interest);
+    this->face::LinkService::receiveInterest(interest, endpointId);
   }
 
   void
-  receiveData(const Data& data)
+  receiveData(const Data& data, const EndpointId& endpointId)
   {
-    this->face::LinkService::receiveData(data);
+    this->face::LinkService::receiveData(data, endpointId);
   }
 
   void
-  receiveNack(const lp::Nack& nack)
+  receiveNack(const lp::Nack& nack, const EndpointId& endpointId)
   {
-    this->face::LinkService::receiveNack(nack);
+    this->face::LinkService::receiveNack(nack, endpointId);
   }
 
   signal::Signal<LinkService, uint32_t> afterSend;
 
 private:
   virtual void
-  doSendInterest(const Interest& interest) override
+  doSendInterest(const Interest& interest, const EndpointId& endpointId) override
   {
     this->sentInterests.push_back(interest);
     this->afterSend(tlv::Interest);
   }
 
   virtual void
-  doSendData(const Data& data) override
+  doSendData(const Data& data, const EndpointId& endpointId) override
   {
     this->sentData.push_back(data);
     this->afterSend(tlv::Data);
   }
 
   virtual void
-  doSendNack(const lp::Nack& nack) override
+  doSendNack(const lp::Nack& nack, const EndpointId& endpointId) override
   {
     this->sentNacks.push_back(nack);
     this->afterSend(lp::tlv::Nack);
   }
 
   virtual void
-  doReceivePacket(Transport::Packet&& packet) override
+  doReceivePacket(Transport::Packet&& packet, const EndpointId& endpointId) override
   {
     BOOST_ASSERT(false);
   }
@@ -106,21 +106,21 @@ DummyFace::setState(FaceState state)
 }
 
 void
-DummyFace::receiveInterest(const Interest& interest)
+DummyFace::receiveInterest(const Interest& interest, const EndpointId& endpointId)
 {
-  this->getLinkServiceInternal()->receiveInterest(interest);
+  this->getLinkServiceInternal()->receiveInterest(interest, endpointId);
 }
 
 void
-DummyFace::receiveData(const Data& data)
+DummyFace::receiveData(const Data& data, const EndpointId& endpointId)
 {
-  this->getLinkServiceInternal()->receiveData(data);
+  this->getLinkServiceInternal()->receiveData(data, endpointId);
 }
 
 void
-DummyFace::receiveNack(const lp::Nack& nack)
+DummyFace::receiveNack(const lp::Nack& nack, const EndpointId& endpointId)
 {
-  this->getLinkServiceInternal()->receiveNack(nack);
+  this->getLinkServiceInternal()->receiveNack(nack, endpointId);
 }
 
 DummyFace::LinkService*

@@ -45,11 +45,11 @@ public:
     std::tie(forwarderFace, clientFace) = makeInternalFace(m_keyChain);;
 
     forwarderFace->afterReceiveInterest.connect(
-      [this] (const Interest& interest) { receivedInterests.push_back(interest); } );
+      [this] (const Interest& interest, const EndpointId& endpointId) { receivedInterests.push_back(interest); } );
     forwarderFace->afterReceiveData.connect(
-      [this] (const Data& data) { receivedData.push_back(data); } );
+      [this] (const Data& data, const EndpointId& endpointId) { receivedData.push_back(data); } );
     forwarderFace->afterReceiveNack.connect(
-      [this] (const lp::Nack& nack) { receivedNacks.push_back(nack); } );
+      [this] (const lp::Nack& nack, const EndpointId& endpointId) { receivedNacks.push_back(nack); } );
   }
 
 protected:
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(ReceiveInterestSendData)
   BOOST_CHECK_EQUAL(receivedInterests.back().getName(), "/PQstEJGdL");
 
   shared_ptr<Data> data = makeData("/PQstEJGdL/aI7oCrDXNX");
-  forwarderFace->sendData(*data);
+  forwarderFace->sendData(*data, 0);
   this->advanceClocks(time::milliseconds(1), 10);
 
   BOOST_CHECK(hasReceivedData);
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE(ReceiveInterestSendNack)
   BOOST_CHECK_EQUAL(receivedInterests.back().getName(), "/1HrsRM1X");
 
   lp::Nack nack = makeNack("/1HrsRM1X", 152, lp::NackReason::NO_ROUTE);
-  forwarderFace->sendNack(nack);
+  forwarderFace->sendNack(nack, 0);
   this->advanceClocks(time::milliseconds(1), 10);
 
   BOOST_CHECK(hasReceivedNack);
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE(SendInterestReceiveData)
     });
 
   shared_ptr<Interest> interest = makeInterest("/Wpc8TnEeoF/f6SzV8hD");
-  forwarderFace->sendInterest(*interest);
+  forwarderFace->sendInterest(*interest, 0);
   this->advanceClocks(time::milliseconds(1), 10);
 
   BOOST_CHECK(hasDeliveredInterest);
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE(SendInterestReceiveNack)
     });
 
   shared_ptr<Interest> interest = makeInterest("/4YgJKWcXN/5oaTe05o", 191);
-  forwarderFace->sendInterest(*interest);
+  forwarderFace->sendInterest(*interest, 0);
   this->advanceClocks(time::milliseconds(1), 10);
 
   BOOST_CHECK(hasDeliveredInterest);
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE(CloseClientFace)
   clientFace.reset();
 
   shared_ptr<Interest> interest = makeInterest("/aau42XQqb");
-  forwarderFace->sendInterest(*interest);
+  forwarderFace->sendInterest(*interest, 0);
   BOOST_CHECK_NO_THROW(this->advanceClocks(time::milliseconds(1), 10));
 }
 

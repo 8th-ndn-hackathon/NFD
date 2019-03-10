@@ -52,66 +52,66 @@ LinkService::setFaceAndTransport(Face& face, Transport& transport)
 }
 
 void
-LinkService::sendInterest(const Interest& interest)
+LinkService::sendInterest(const Interest& interest, const EndpointId& endpointId)
 {
   BOOST_ASSERT(m_transport != nullptr);
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nOutInterests;
 
-  doSendInterest(interest);
+  doSendInterest(interest, endpointId);
 }
 
 void
-LinkService::sendData(const Data& data)
+LinkService::sendData(const Data& data, const EndpointId& endpointId)
 {
   BOOST_ASSERT(m_transport != nullptr);
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nOutData;
 
-  doSendData(data);
+  doSendData(data, endpointId);
 }
 
 void
-LinkService::sendNack(const ndn::lp::Nack& nack)
+LinkService::sendNack(const ndn::lp::Nack& nack, const EndpointId& endpointId)
 {
   BOOST_ASSERT(m_transport != nullptr);
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nOutNacks;
 
-  doSendNack(nack);
+  doSendNack(nack, endpointId);
 }
 
 void
-LinkService::receiveInterest(const Interest& interest)
+LinkService::receiveInterest(const Interest& interest, const EndpointId& endpointId)
 {
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nInInterests;
 
-  afterReceiveInterest(interest);
+  afterReceiveInterest(interest, endpointId);
 }
 
 void
-LinkService::receiveData(const Data& data)
+LinkService::receiveData(const Data& data, const EndpointId& endpointId)
 {
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nInData;
 
-  afterReceiveData(data);
+  afterReceiveData(data, endpointId);
 }
 
 void
-LinkService::receiveNack(const ndn::lp::Nack& nack)
+LinkService::receiveNack(const ndn::lp::Nack& nack, const EndpointId& endpointId)
 {
   NFD_LOG_FACE_TRACE(__func__);
 
   ++this->nInNacks;
 
-  afterReceiveNack(nack);
+  afterReceiveNack(nack, endpointId);
 }
 
 void
